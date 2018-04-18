@@ -1,0 +1,8 @@
+docker installation
+
+1) 国内最便捷的安装方法
+感谢 daocloud 让我不用再忍受断网之苦
+
+curl -sSL https://get.daocloud.io/docker | sh
+2) docker 官网标准安装步骤
+
