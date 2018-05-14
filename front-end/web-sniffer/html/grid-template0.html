@@ -1,0 +1,394 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Gentelella Alela! | </title>
+
+     <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress 
+    <link href="vendors/nprogress/nprogress.css" rel="stylesheet">-->
+    <!-- bootstrap-daterangepicker -->
+    <link href="css/daterangepicker.css" rel="stylesheet">
+  
+    <!-- Custom Theme Style -->
+    <link href="css/statistic.min.css" rel="stylesheet">
+
+
+  </head>
+
+  <body class="nav-md">
+    <div class="container body">
+      <div class="main_container">
+        
+
+        <!-- top navigation -->
+        <div class="top_nav">
+        
+        </div>
+        <!-- /top navigation -->
+
+        <!-- page content -->
+        <div class="main_container" role="main">
+          <div class="">
+            <div class="page-title">
+              </div>
+            <div class="row">
+       <div class="col-md-12 ">
+                <div class="x_panel">
+          
+          <div class="x_content">
+
+          
+          <div class="row">
+              <div class="col-md-1  " >
+                <label class="control-label">请选择部门</label>
+              </div>
+              <div class="col-md-3 "  id="department">
+                <select class="select2_single form-control"  tabindex="-1" >
+                  <option value="creditcard" >信用卡</option >
+                </select>
+              </div>
+            
+            <div class="col-md-1 col-sm-3 col-xs-2">
+                <label class="control-label">日期范围 <span class="required"></span></label>
+            </div>
+
+            <div id="reportrange" class="col-md-5 col-sm-3 ">
+                <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                <span class="date-picker form-control col-md-11 "></span> 
+                <b class="caret"></b>
+            </div>
+          </div>
+
+          <div class="row">
+              <div class="col-md-1  " >
+                <label class="control-label">请选择要展示的属性</label>
+              </div>
+              <div class="col-md-11 " id="dimensions">
+                <label>{{dimension.name}}</label> <input type="checkbox" name="{{dimension.value}}">       
+              </div>
+          </div>
+
+           <div class="row">
+              <div class="col-md-1  " >
+                <label class="control-label">请选择要是数据源</label>
+              </div>
+              <div class="col-md-11 " id="datasources">
+                <label>{{datasource.name}}</label> <input type="radio" name="{{datasource.value}}">       
+              </div>
+          </div>
+      
+          
+          
+        
+        
+            
+             <div class="x_panel">
+              <div class="form-group">
+                <div class="col-md-6  ">
+                  <button type="submit" class="btn btn-success" id="btnSubmit">查询</button>
+                </div>
+              </div>
+            </div>
+        
+          </div>
+      </div>
+       </div>
+       </div>
+             
+          
+
+            <div class="clearfix"></div>
+
+            <div class="row">
+              <div class="clearfix"></div>
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel" id="app">
+                  <div class="x_content">
+                    <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="heading" id="headerList">
+                            <th class="column-title" rowspan="2" style="vertical-align:middle; ">URL </th>
+                            <th class="column-title" rowspan="2" colspan="1" style="vertical-align:middle; ">OS</th>
+                            <th class="column-title"  style="text-align:middle;"  colspan="2"> {{vdate}} </th>
+                            <th class="column-title no-link last" rowspan="2" style="vertical-align:middle; "><span class="nobr">同比</span>
+                            </th>
+                            <th class="bulk-actions" colspan="7">
+                              <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                            </th>
+                          </tr>
+                  
+                          <tr class="even pointer" id="header0List">
+                            <td class="column-title"  style="text-align:middle;" > {{item}}</td>
+                          </tr>
+                        </thead>
+                        <tbody id="reportList">
+                          <tr class="odd pointer" >          
+                            <td class=" ">{{item.url}}</td>
+                            <td class=" ">{{item.os}}</td>
+                            <td class=" ">{{item.days[0].pv}}</td>
+                            <td class=" ">{{item.days[0].cost}}</td>
+                            <td class=" ">{{item.days[1].pv}}</td>
+                            <td class=" ">{{item.days[1].cost}}</td>
+                            <td class=" ">{{item.days[2].pv}}</td>
+                            <td class=" ">{{item.days[2].cost}}</td>
+                            <td class=" ">{{item.days[3].pv}}</td>
+                            <td class=" ">{{item.days[3].cost}}</td>
+                            <td class=" ">{{item.days[4].pv}}</td>
+                            <td class=" ">{{item.days[4].cost}}</td>
+                            <td class=" ">{{item.days[5].pv}}</td>
+                            <td class=" ">{{item.days[5].cost}}</td>
+                            <td class=" ">{{item.days[6].pv}}</td>
+                            <td class=" ">{{item.days[6].cost}}</td>
+                            <td class=" last"><a href="#" name="view">View</a>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+							
+						
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /page content -->
+
+        <!-- footer content -->
+        <!--footer>
+          <div class="pull-right">
+            Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
+          </div>
+          <div class="clearfix"></div>
+        </footer-->
+        <!-- /footer content -->
+      </div>
+    </div>
+
+   <!-- jQuery -->
+  <script src="js/common/jquery.min.js"></script>
+  <script src="js/statistic/moment.min.js"></script>
+  <script src="js/statistic/daterangepicker.js"></script>   
+  <script src="js/statistic/Chart.bundle.js"></script>
+  <script src="js/statistic/utils.js"></script>
+  <script src="./js/common/arttemplate.js"></script>
+  <script src="./js/common/common.js"></script>
+  <script src="./js/common/conf.js" type="text/javascript"></script>
+
+  <!--script type="text/template" id="reportListTmpl">
+        {{each datas as item index}}
+        <tr>
+                            <td class=" ">{{item.url}}</td>
+                            <td class=" ">{{item.os}}</td>
+                            <td class=" ">{{item.days[0].pv}}</td>
+                            <td class=" ">{{item.days[0].cost}}</td>
+                            <td class=" ">{{item.days[1].pv}}</td>
+                            <td class=" ">{{item.days[1].cost}}</td>
+                            <td class=" ">{{item.days[2].pv}}</td>
+                            <td class=" ">{{item.days[2].cost}}</td>
+                            <td class=" ">{{item.days[3].pv}}</td>
+                            <td class=" ">{{item.days[3].cost}}</td>
+                            <td class=" ">{{item.days[4].pv}}</td>
+                            <td class=" ">{{item.days[4].cost}}</td>
+                            <td class=" ">{{item.days[5].pv}}</td>
+                            <td class=" ">{{item.days[5].cost}}</td>
+                            <td class=" ">{{item.days[6].pv}}</td>
+                            <td class=" ">{{item.days[6].cost}}</td>
+                            <td class=" last"><a href="#" name="view">View</a>
+                            </td>
+           </tr>
+        {{/each}}
+    </script-->
+
+    <script type="text/template" id="reportListTmpl">
+        {{each datas as item index}}
+        <tr>
+                            <td class=" ">{{item.url}}</td>
+                            <td class=" ">{{item.os}}</td>
+                             {{each item.days as day index0}}
+                                 {{each day as  value index1}}
+                            <td class=" ">{{value}} </td>
+                             {{/each}}
+                             {{/each}}
+                            <td class=" last"><a href="#" name="view">View</a>
+                            </td>
+           </tr>
+        {{/each}}
+    </script>
+
+      <!--script type="text/html" id="reportListTmpl">
+        <% if (datas) {%>
+        <% for(var i=0;i<datas.length;i++){ %>
+
+        <%= datas[i].url%>
+      
+         <% } %>
+           <% } %>
+    </script-->
+
+
+    <script type="text/template" id="headerListTmpl">
+        <th class="column-title" rowspan="2" style="vertical-align:middle; ">URL </th>
+        <th class="column-title" rowspan="2" colspan="1" style="vertical-align:middle; ">OS</th>
+        {{each dates as item index}}
+          <th class="column-title"  style="text-align:middle;"  colspan="2"> {{item}} </th>
+        {{/each}}
+        <th class="column-title no-link last" rowspan="2" style="vertical-align:middle; "><span class="nobr">同比</span>
+                            </th>
+                            <th class="bulk-actions" colspan="7">
+                              <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                            </th>
+    </script>
+
+      <script type="text/template" id="header0ListTmpl">
+        
+        {{each datesItems as item index}}
+           <td class="column-title"  style="text-align:middle;" > {{item}}</td>
+        {{/each}}
+       
+    </script>
+
+     <script type="text/template" id="dimensionListTmpl">
+       
+        {{each datas as item index}}
+       
+              <label>{{item.value}}</label> <input type="checkbox" name="{{item.name}}"> 
+        {{/each}}
+      
+    </script>
+
+     <script type="text/template" id="datasourceListTmpl">
+        {{each datas as item index}}
+              <label>{{item.value}}</label> <input type="radio" value="{{item.name}}" name="datesource"> 
+        {{/each}}
+      
+    </script>
+
+
+
+    
+
+<script type="text/javascript">
+template.defaults.debug=true
+
+var vContext = {
+  daterangepicker : {
+      dateTxt : function (start,end,delta) {
+        return start.subtract(delta, 'days').format('YYYY-MM-DD') + '~' + end.format('YYYY-MM-DD')
+      },
+      config : {  
+        maxDate : moment(), //max time
+        dateLimit : {  
+          days : 7  
+        }, //max interval 
+        showDropdowns : true,  
+        showWeekNumbers : false, //wheter display week number
+        timePicker : false, //whether display hour & minute
+        timePickerIncrement : 60, //incrment, seconds
+        timePicker12Hour : false, //whether dispaly as 12 hours
+        ranges : {  
+          '最近7日': [moment().subtract(6, 'days'), moment()],  
+        },  
+        opens : 'right', 
+        buttonClasses : ['btn btn-success'],  
+        applyClass : 'btn-small btn-primary blue',  
+        cancelClass : 'btn-small',  
+        locale : {  
+          applyLabel : '确定',  
+          cancelLabel : '取消',  
+          fromLabel : '起始时间',  
+          toLabel : '结束时间',  
+          customRangeLabel : '自定义',  
+          daysOfWeek : [ '日', '一', '二', '三', '四', '五', '六' ],  
+          monthNames : [ '一月', '二月', '三月', '四月', '五月', '六月',  
+            '七月', '八月', '九月', '十月', '十一月', '十二月' ],  
+          firstDay : 1  
+        }  
+      }
+    },
+  draw : function () {
+      //
+  }
+ }
+
+
+  
+
+
+$(document).ready(function(){
+  $('#reportrange span').html(vContext.daterangepicker.dateTxt(moment(),moment(),6));  
+  $('#reportrange').daterangepicker(vContext.daterangepicker.config, function(start, end, label) {  
+        // formt display
+        $('#reportrange span').html(vContext.daterangepicker.dateTxt(start, end, 0));  
+    }); 
+
+  $("a[name='view']").each(function() {
+    this.onclick = function() {
+     //this.parent.innerHtml
+    }.bind(this)
+  })
+  
+});
+
+
+
+var dimensions = { datas: [
+          {"name":"weight","value" : "Page Weight"},
+          {"name":"performance.fmp","value" : "FirstMeaningfullPaint"},
+          {"name":"performance.ttfb","value" : "TTFB"},
+          {"name":"performance.domReady","value" : "DOMContentLoaded DomReady"},
+          {"name":"performance.loaded","value" : "Loaded"},
+          {"name":"performance.tti","value" : "TTI(time to interative)"},
+          {"name":"quality.errors","value" : "Total JS Errors"},
+          {"name":"quality.inaccessibles","value" : "Total Inaccessible Requests"},
+          {"name":"quality.doms","value" : "Total DOMs"},
+          {"name":"quality..transfers.total","value" : "Total Transfers Weight"},
+          {"name":"quality.inputLatency","value" : "Input Latency"},
+          {"name":"quality.pageSize","value" : "Page Size"},
+          {"name":"quality.cookies","value" : "Total Cookies Weight"},
+          {"name":"quality.domains","value" : "Total Domains"},
+          {"name":"quality.fps","value" : "FPS"},
+          {"name":"quality.psi","value" : "Perceptual Speed Index"},
+          {"name":"quality.requests.total","value" : "Total Requests Quantity"}]}
+
+var datasources = { datas : [ {"name":"iris","value" : "Iris"},
+          {"name":"cat-mobile","value" : "CAT mobile"}]}
+
+      
+
+
+
+ var payload = {
+            dates : ["day1","day2","day3","day4","day5","day6","day7"],
+            datesItems : ["权重","FMP","权重","FMP","权重","FMP","权重","FMP","权重","FMP","权重","FMP","权重","FMP"],
+            datas : [ { url : "a.com", os: "IOS",days : [{pv : "1024",cost :"121"},{pv : "1024",cost :"122"},{pv : "1024",cost :"123"},{pv : "1024",cost :"124"},{pv : "1024",cost :"125"},{pv : "1024",cost :"126"},{pv : "1024",cost :"127"}]},
+            { url : "a.com", os: "Andriod",days : [{pv : "1024",cost :"121"},{pv123 : "1024",cost :"122"},{pv : "1024",cost :"123"},{pv : "1024",cost :"124"},{pv : "1024",cost :"125"},{pv : "1024",cost :"126"},{pv : "1024",cost :"127"}]},
+            { url : "b.com", os: "IOS",days : [{pv : "1024",cost :"121"},{pv : "1024",cost :"122"},{pv : "1024",cost :"123"},{pv : "1024",cost :"124"},{pv : "1024",cost :"125"},{pv : "1024",cost :"126"},{pv : "1024",cost :"127"}]},
+            { url : "b.com", os: "Andriod",days : [{pv : "1024",cost :"121"},{pv : "1024",cost :"122"},{pv : "1024",cost :"123"},{pv : "1024",cost :"124"},{pv : "1024",cost :"125"},{pv : "1024",cost :"126"},{pv : "1024",cost :"127"}]}
+            ]
+
+        }
+
+        var html= template('reportListTmpl', payload);
+      $("#reportList").html(html)
+      $("#headerList").html(template('headerListTmpl', payload))
+      $("#header0List").html( template('header0ListTmpl', payload))
+      $("#dimensions").html( template('dimensionListTmpl', dimensions))
+      $("#datasources").html( template('datasourceListTmpl', datasources))
+
+
+</script>
+</body>
+</html>
