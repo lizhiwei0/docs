@@ -7,11 +7,11 @@ var drawer = {
 			if (reactor) {
 				return reactor
 			}
-			return chartjsReactor;
+			return echartReactor;
 	},
 	linear : function(ctx) {
 			drawer.getReactor(ctx).linear(ctx);
-	}
+	},
 	bar : function (ctx) {
 		drawer.getReactor(ctx).bar(ctx);
 	},

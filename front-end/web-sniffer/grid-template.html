@@ -192,7 +192,9 @@
   <script src="js/statistic/daterangepicker.js"></script>   
   <script src="js/statistic/Chart.bundle.js"></script>
   <script src="js/statistic/utils.js"></script>
-   <script src="js/statistic/drawer.js"></script>
+  <script src="js/drawer.js"></script>
+  <script src="js/echarts.js"></script>
+   
   <script src="./js/arttemplate-4.12.2.js"></script>
   <script src="./js/common/common.js"></script>
 
@@ -286,7 +288,7 @@ var dimensions = { datas: [
         }
 
 var vContext = {
-  baseUrl : config[env.name].apiBaseURL + 'cust/reportinfo/vistors1',
+  baseUrl :  'http://127.0.0.1:18080/web-sniffer/websniffer/ensemble',
   daterangepicker : {
       dateTxt : function (start,end,delta) {
         return start.subtract(delta, 'days').format('YYYY-MM-DD HH:mm') + '~' + end.format('YYYY-MM-DD HH:mm')
@@ -369,7 +371,7 @@ var vContext = {
         urls : vUrl,
         startDate : dates[0],
         endDate : dates[1],
-        //source : vdataSource,
+        source : "catMobile",
         //domain : vdomain
        // group : vgroup
 
@@ -386,10 +388,13 @@ var vContext = {
   
       $.ajax({
         url : vContext.baseUrl,
-        contentType : 'application/json',
+        //contentType : 'application/json',
         method : 'post',
-        dataType:'json',
-        data :  JSON.stringify(vData),//$.param(vData,true),
+        //dataType:'json',
+        dataType:'jsonp',
+        jsonp: 'jsonpCallback',   
+        data :  $.param(vData,true),//JSON.stringify(vData),//$.param(vData,true),
+        jsonpCallback : 'vContext["processSuccess"]',
         beforeSend : function() {
           $('#btnSubmit').addClass('buttonDisabled');
         },
@@ -470,7 +475,8 @@ var vContext = {
     tmpTr.appendChild(tmpTd)
     tmpTd.setAttribute("colspan",3+vContext["payload"]["datesItems"].length)
     var chart = document.createElement("DIV")
-    chart.setAttribute("style","width:"+(tr.offsetWidth-50)+"px;height:"+(tr.offsetWidth/2)+"px;position: relative;top: -30px;")
+   // chart.setAttribute("style","width:"+(tr.offsetWidth-50)+"px;height:"+(tr.offsetWidth/2)+"px;position: relative;top: -30px;")
+      chart.setAttribute("style","width:800px;height:500px;")
     tmpTd.appendChild(chart)
 
     chart.setAttribute("id", divId);
@@ -502,32 +508,40 @@ var vContext = {
       siblingRecord = convertRecordData(destRecord)
     }
 
-   // doDrawChart(verticalRecord, siblingRecord,[vContext["selectedDimensions"][0]],chart,divId)
-   // doDrawChart(verticalRecord, siblingRecord,[vContext["selectedDimensions"][1]],chart,divId)
-
   
     var chartData = {
-          labels: verticalRecord.labels,
-          datasets: []
+          xAxisData: [],
+          series: []
         };
 
     
-    var colorNames = Object.keys(window.chartColors)
-    var count = 0
+    chartData.xAxisData = vContext["payload"].dates;
+
     var titleConverter = dimensions.titleConverter("")
 
-    for(var i=0;i < vContext["selectedDimensions"].length; i++) {
-     newColor = window.chartColors[colorNames[count++]]
-     var vlabel = verticalRecord.os ? verticalRecord.os : ""
+    
 
-     chartData.datasets.push({
-            label : vlabel + "."+titleConverter(vContext["selectedDimensions"][i]),
-            borderColor: newColor,
-            backgroundColor: newColor,
-            fill: false,
-            data:  verticalRecord.days[i],
-      })
+    for(var i=0;i < vContext["selectedDimensions"].length; i++) {
+  
+     var vlabel = verticalRecord.os ? verticalRecord.os : ""
+     var seriesRecord = {
+             name: vlabel + "."+titleConverter(vContext["selectedDimensions"][i]),
+             type: 'line',
+             data:[],
+     }
+
+      chartData.series.push(seriesRecord);
+
+      for (var j = 0; j < chartData.xAxisData.length; j++) {
+          if ( record[chartData.xAxisData[j]] == undefined) {
+             seriesRecord.data.push("N/A")
+          }
+          seriesRecord.data.push(record[chartData.xAxisData[j]])
+      }
+      
     }
+
+    /**
 
     if (destRecord) {
       verticalRecord = convertRecordData(destRecord)
@@ -546,8 +560,8 @@ var vContext = {
       }
       }
       
-    }
-      var cavans = document.createElement("canvas")
+    }*/
+    var cavans = document.createElement("canvas")
     var destCanvasId = divId+"_canvas";
     cavans.setAttribute("id", destCanvasId);
  
@@ -628,18 +642,20 @@ $("#datasources").html( template('datasourceListTmpl', datasources))
 
 
  var payload = {
-            dates : ["day1","day2"],
+            dates : ["day1","day2","day3","day4","day5","day6","day7"],
             datesItems : ["访问量","耗时(毫秒)","访问量","耗时(毫秒)"],
               selectedDimensions : ["weight","performance.fmp"],
-                datas : [ { url : "a.com", os: "IOS",days : [{pv : "1024",cost :"121"},{pv : "1024",cost :"122"},{pv : "1024",cost :"123"},{pv : "1024",cost :"124"},{pv : "1024",cost :"125"},{pv : "1024",cost :"126"},{pv : "1024",cost :"127"}]},
-            { url : "a.com", os: "Andriod",days : [{pv : "1024",cost :"121"},{pv123 : "1024",cost :"122"},{pv : "1024",cost :"123"},{pv : "1024",cost :"124"},{pv : "1024",cost :"125"},{pv : "1024",cost :"126"},{pv : "1024",cost :"127"}]},
-            { url : "b.com", os: "IOS",days : [{pv : "1024",cost :"121"},{pv : "1024",cost :"122"},{pv : "1024",cost :"123"},{pv : "1024",cost :"124"},{pv : "1024",cost :"125"},{pv : "1024",cost :"126"},{pv : "1024",cost :"127"}]},
-            { url : "b.com", os: "Andriod",days : [{pv : "1024",cost :"121"},{pv : "1024",cost :"122"},{pv : "1024",cost :"123"},{pv : "1024",cost :"124"},{pv : "1024",cost :"125"},{pv : "1024",cost :"126"},{pv : "1024",cost :"127"}]}
+                datas : [ { url : "a.com", os: "IOS",days : { day1 : {pv : "1024",cost :"121"}, day2 :{pv : "1024",cost :"122"}, day3 : {pv : "1024",cost :"123"}, day4 : {pv : "1024",cost :"124"}, day5 : {pv : "1024",cost :"125"},
+                day6 : {pv : "1024",cost :"126"}, day7: {pv : "1024",cost :"127"}}},
+                { url : "a.com", os: "Andrio",days : { day1 : {pv : "1024",cost :"121"}, day2 :{pv : "1024",cost :"122"}, day3 : {pv : "1024",cost :"123"}, day4 : {pv : "1024",cost :"124"}, day5 : {pv : "1024",cost :"125"},
+                day6 : {pv : "1024",cost :"126"}, day7: {pv : "1024",cost :"127"}}}
             ]
         }
+
+var data = {"code":0,"data":{"datas":[{"os":"Android","days":{"20180410 11":[1,116]},"url":"/IntellectTransfer/intellectRepayment.html"},{"os":"Android","days":{"20180404 06":[1,204]},"url":"/default2/index.html"},{"os":"Android","days":{"20180404 09":[1,335]},"url":"/default2/search2.html"},{"os":"Android","days":{"20180404 06":[1,882]},"url":"/doublePassV2/pages/final-amount.html"},{"os":"Android","days":{"20180404 06":[1,678]},"url":"/doublePassV2/pages/noLimit.html"},{"os":"iOS","days":{"20180411 02":[1,2042],"20180410 11":[3,1105],"20180410 10":[1,605]},"url":"/lifePayment/pages/carLife.html"},{"os":"Android","days":{"20180410 11":[1,367]},"url":"/myLoan/pages/yjdContract/contractCheckAndSub.html"},{"os":"iOS","days":{"20180411 02":[1,636]},"url":"/paymentManage/pages/pocketPay.html"},{"os":"Android","days":{"20180404 06":[1,616]},"url":"/rentLoan/pages/applyProcess/begin.html"},{"os":"Android","days":{"20180404 06":[1,179]},"url":"/rentLoan/pages/applyProcess/submitSuccess.html"},{"os":"Android","days":{"20180410 11":[1,503]},"url":"/superTransfer/pages/superTransfer.html"},{"os":"Android","days":{"20180408 05":[1,403]},"url":"https://b-stg.pingan.com.cn/aum/m/buy.html"},{"os":"Android","days":{"20180408 05":[1,904]},"url":"https://b-stg.pingan.com.cn/aum/m/cash_detail.html"},{"os":"Android","days":{"20180411 02":[1,1797]},"url":"https://b-stg.pingan.com.cn/aum/m/fund_more.html"},{"os":"Android","days":{"20180408 05":[1,440]},"url":"https://b-stg.pingan.com.cn/aum/m/pay_xiaoan.html"},{"os":"Android","days":{"20180408 05":[1,5409]},"url":"https://b-stg.pingan.com.cn/loan/mobile/index.html"},{"os":"iOS","days":{"20180404 06":[1,3119]},"url":"https://b-stg.pingan.com.cn/loan/mobile/index.html"},{"os":"iOS","days":{"20180410 10":[1,678]},"url":"https://b.pingan.com.cn/m/lum/cfss/amsp/jhy/apply/v3/index.html"},{"os":"Android","days":{"20180408 05":[1,3063]},"url":"https://bank-static-stg.pingan.com.cn/aum/m/amount_deposit.html"},{"os":"Android","days":{"20180408 05":[1,1654]},"url":"https://bank-static-stg.pingan.com.cn/aum/m/amount_deposit_livedead.html"},{"os":"iOS","days":{"20180404 06":[1,1663]},"url":"https://bank-static-stg.pingan.com.cn/aum/mobile/index.html"},{"os":"Android","days":{"20180404 09":[1,280]},"url":"https://bank-static-stg.pingan.com.cn/bank/koudai/faq/FAQDetail.html"},{"os":"Android","days":{"20180404 06":[2,1323]},"url":"https://bank-static-stg.pingan.com.cn/ca/ccBooking/videoActiveHtml/creditcard/activeCard/activeCard.html#/"},{"os":"iOS","days":{"20180411 02":[1,406],"20180410 11":[1,1086],"20180404 06":[1,5628]},"url":"https://bank-static-stg.pingan.com.cn/creditcard/mobile/home1"},{"os":"Android","days":{"20180411 02":[1,1421],"20180408 05":[1,1766],"20180404 06":[1,2251]},"url":"https://bank-static-stg.pingan.com.cn/platform/mobile/index.html"},{"os":"iOS","days":{"20180404 09":[1,575],"20180411 02":[1,854],"20180410 11":[2,1033],"20180404 06":[1,3558],"20180410 10":[1,3193]},"url":"https://bank-static-stg.pingan.com.cn/platform/mobile/index.html"},{"os":"Android","days":{"20180404 06":[1,749]},"url":"https://bank-static-stg.pingan.com.cn/platform/mobile/mine.html"},{"os":"iOS","days":{"20180404 09":[1,2671]},"url":"https://bank-static-stg.pingan.com.cn/platform/mobile/mine.html"},{"os":"Android","days":{"20180404 06":[1,591]},"url":"https://bank-static.pingan.com.cn/paces-ccms-core/creditcard/tab/tab.html#/home1"},{"os":"Android","days":{"20180411 02":[150,1421],"20180408 05":[70,1766],"20180404 06":[50,2251]},"url":"https://demoUrl.html"},{"os":"iOS","days":{"20180404 09":[216,1351],"20180411 02":[28,1921],"20180410 11":[612,2166],"20180408 05":[32,3766],"20180404 06":[16,2351],"20180410 10":[312,2766]},"url":"https://demoUrl.html"}],"dates":["20180404 06","20180404 09","20180408 05","20180410 10","20180410 11","20180411 02"]}}
 vContext["selectedDimensions"] = payload.selectedDimensions;
 vContext["payload"] = payload;
-vContext.doRender(payload);
+vContext.processSuccess(data);
       
 
 
