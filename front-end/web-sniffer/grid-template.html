@@ -474,9 +474,10 @@ var vContext = {
     var tmpTd = document.createElement("TD")
     tmpTr.appendChild(tmpTd)
     tmpTd.setAttribute("colspan",3+vContext["payload"]["datesItems"].length)
+    tmpTd.setAttribute("style","width:"+(tr.offsetWidth-50)+"px;height:"+(tr.offsetWidth/4)+"px;")
     var chart = document.createElement("DIV")
    // chart.setAttribute("style","width:"+(tr.offsetWidth-50)+"px;height:"+(tr.offsetWidth/2)+"px;position: relative;top: -30px;")
-      chart.setAttribute("style","width:800px;height:500px;")
+    chart.setAttribute("style","width:100%;height:100%")
     tmpTd.appendChild(chart)
 
     chart.setAttribute("id", divId);
@@ -500,14 +501,6 @@ var vContext = {
     } else if (nextRecord && nextRecord.url == record.url) {
       destRecord = nextRecord
     }
-
-
-    var verticalRecord = convertRecordData(record);
-    var siblingRecord 
-    if (destRecord) {
-      siblingRecord = convertRecordData(destRecord)
-    }
-
   
     var chartData = {
           xAxisData: [],
@@ -523,53 +516,28 @@ var vContext = {
 
     for(var i=0;i < vContext["selectedDimensions"].length; i++) {
   
-     var vlabel = verticalRecord.os ? verticalRecord.os : ""
+     var vlabel = record.os ? record.os : ""
      var seriesRecord = {
              name: vlabel + "."+titleConverter(vContext["selectedDimensions"][i]),
              type: 'line',
              data:[],
      }
 
+
       chartData.series.push(seriesRecord);
 
       for (var j = 0; j < chartData.xAxisData.length; j++) {
-          if ( record[chartData.xAxisData[j]] == undefined) {
+          if ( record.days[chartData.xAxisData[j]] == undefined) {
              seriesRecord.data.push("N/A")
+             continue
           }
-          seriesRecord.data.push(record[chartData.xAxisData[j]])
-      }
-      
+          seriesRecord.data.push(record.days[chartData.xAxisData[j]][i])
+      } 
     }
-
-    /**
-
-    if (destRecord) {
-      verticalRecord = convertRecordData(destRecord)
-
-      if(JSON.stringify(verticalRecord.labels)==JSON.stringify(chartData.labels)) {
-        for(var i=0;i < vContext["selectedDimensions"].length; i++) {
-        newColor = window.chartColors[colorNames[count++]];
-        var vlabel = verticalRecord.os ? verticalRecord.os : ""
-        chartData.datasets.push({
-            label : vlabel + "."+titleConverter(vContext["selectedDimensions"][i]),
-            borderColor: newColor,
-            backgroundColor: newColor,
-            fill: false,
-            data:  verticalRecord.days[i],
-          })
-      }
-      }
-      
-    }*/
-    var cavans = document.createElement("canvas")
-    var destCanvasId = divId+"_canvas";
-    cavans.setAttribute("id", destCanvasId);
- 
-    chart.appendChild(cavans)
 
     var titleTxt = "";
     drawer.linear( {
-          'destiDivId' : destCanvasId,
+          'destiDivId' : divId,
           'chartData' : chartData,
           'titleTxt' : titleTxt
         })
@@ -652,7 +620,16 @@ $("#datasources").html( template('datasourceListTmpl', datasources))
             ]
         }
 
-var data = {"code":0,"data":{"datas":[{"os":"Android","days":{"20180410 11":[1,116]},"url":"/IntellectTransfer/intellectRepayment.html"},{"os":"Android","days":{"20180404 06":[1,204]},"url":"/default2/index.html"},{"os":"Android","days":{"20180404 09":[1,335]},"url":"/default2/search2.html"},{"os":"Android","days":{"20180404 06":[1,882]},"url":"/doublePassV2/pages/final-amount.html"},{"os":"Android","days":{"20180404 06":[1,678]},"url":"/doublePassV2/pages/noLimit.html"},{"os":"iOS","days":{"20180411 02":[1,2042],"20180410 11":[3,1105],"20180410 10":[1,605]},"url":"/lifePayment/pages/carLife.html"},{"os":"Android","days":{"20180410 11":[1,367]},"url":"/myLoan/pages/yjdContract/contractCheckAndSub.html"},{"os":"iOS","days":{"20180411 02":[1,636]},"url":"/paymentManage/pages/pocketPay.html"},{"os":"Android","days":{"20180404 06":[1,616]},"url":"/rentLoan/pages/applyProcess/begin.html"},{"os":"Android","days":{"20180404 06":[1,179]},"url":"/rentLoan/pages/applyProcess/submitSuccess.html"},{"os":"Android","days":{"20180410 11":[1,503]},"url":"/superTransfer/pages/superTransfer.html"},{"os":"Android","days":{"20180408 05":[1,403]},"url":"https://b-stg.pingan.com.cn/aum/m/buy.html"},{"os":"Android","days":{"20180408 05":[1,904]},"url":"https://b-stg.pingan.com.cn/aum/m/cash_detail.html"},{"os":"Android","days":{"20180411 02":[1,1797]},"url":"https://b-stg.pingan.com.cn/aum/m/fund_more.html"},{"os":"Android","days":{"20180408 05":[1,440]},"url":"https://b-stg.pingan.com.cn/aum/m/pay_xiaoan.html"},{"os":"Android","days":{"20180408 05":[1,5409]},"url":"https://b-stg.pingan.com.cn/loan/mobile/index.html"},{"os":"iOS","days":{"20180404 06":[1,3119]},"url":"https://b-stg.pingan.com.cn/loan/mobile/index.html"},{"os":"iOS","days":{"20180410 10":[1,678]},"url":"https://b.pingan.com.cn/m/lum/cfss/amsp/jhy/apply/v3/index.html"},{"os":"Android","days":{"20180408 05":[1,3063]},"url":"https://bank-static-stg.pingan.com.cn/aum/m/amount_deposit.html"},{"os":"Android","days":{"20180408 05":[1,1654]},"url":"https://bank-static-stg.pingan.com.cn/aum/m/amount_deposit_livedead.html"},{"os":"iOS","days":{"20180404 06":[1,1663]},"url":"https://bank-static-stg.pingan.com.cn/aum/mobile/index.html"},{"os":"Android","days":{"20180404 09":[1,280]},"url":"https://bank-static-stg.pingan.com.cn/bank/koudai/faq/FAQDetail.html"},{"os":"Android","days":{"20180404 06":[2,1323]},"url":"https://bank-static-stg.pingan.com.cn/ca/ccBooking/videoActiveHtml/creditcard/activeCard/activeCard.html#/"},{"os":"iOS","days":{"20180411 02":[1,406],"20180410 11":[1,1086],"20180404 06":[1,5628]},"url":"https://bank-static-stg.pingan.com.cn/creditcard/mobile/home1"},{"os":"Android","days":{"20180411 02":[1,1421],"20180408 05":[1,1766],"20180404 06":[1,2251]},"url":"https://bank-static-stg.pingan.com.cn/platform/mobile/index.html"},{"os":"iOS","days":{"20180404 09":[1,575],"20180411 02":[1,854],"20180410 11":[2,1033],"20180404 06":[1,3558],"20180410 10":[1,3193]},"url":"https://bank-static-stg.pingan.com.cn/platform/mobile/index.html"},{"os":"Android","days":{"20180404 06":[1,749]},"url":"https://bank-static-stg.pingan.com.cn/platform/mobile/mine.html"},{"os":"iOS","days":{"20180404 09":[1,2671]},"url":"https://bank-static-stg.pingan.com.cn/platform/mobile/mine.html"},{"os":"Android","days":{"20180404 06":[1,591]},"url":"https://bank-static.pingan.com.cn/paces-ccms-core/creditcard/tab/tab.html#/home1"},{"os":"Android","days":{"20180411 02":[150,1421],"20180408 05":[70,1766],"20180404 06":[50,2251]},"url":"https://demoUrl.html"},{"os":"iOS","days":{"20180404 09":[216,1351],"20180411 02":[28,1921],"20180410 11":[612,2166],"20180408 05":[32,3766],"20180404 06":[16,2351],"20180410 10":[312,2766]},"url":"https://demoUrl.html"}],"dates":["20180404 06","20180404 09","20180408 05","20180410 10","20180410 11","20180411 02"]}}
+var data = {"code":0,"data":{"datas":[
+{"os":"Android","days":{"20180410 11":[1,116]},"url":"/IntellectTransfer/intellectRepayment.html"},
+{"os":"Android","days":{"20180404 06":[1,204]},"url":"/default2/index.html"},
+/**{"os":"Android","days":{"20180404 09":[1,335]},"url":"/default2/search2.html"},
+{"os":"Android","days":{"20180404 06":[1,882]},"url":"/doublePassV2/pages/final-amount.html"},{"os":"Android","days":{"20180404 06":[1,678]},"url":"/doublePassV2/pages/noLimit.html"},{"os":"iOS","days":{"20180411 02":[1,2042],"20180410 11":[3,1105],"20180410 10":[1,605]},"url":"/lifePayment/pages/carLife.html"},
+{"os":"Android","days":{"20180410 11":[1,367]},"url":"/myLoan/pages/yjdContract/contractCheckAndSub.html"},{"os":"iOS","days":{"20180411 02":[1,636]},"url":"/paymentManage/pages/pocketPay.html"},{"os":"Android","days":{"20180404 06":[1,616]},"url":"/rentLoan/pages/applyProcess/begin.html"},{"os":"Android","days":{"20180404 06":[1,179]},"url":"/rentLoan/pages/applyProcess/submitSuccess.html"},{"os":"Android","days":{"20180410 11":[1,503]},"url":"/superTransfer/pages/superTransfer.html"},{"os":"Android","days":{"20180408 05":[1,403]},"url":"https://b-stg.pingan.com.cn/aum/m/buy.html"},{"os":"Android","days":{"20180408 05":[1,904]},"url":"https://b-stg.pingan.com.cn/aum/m/cash_detail.html"},{"os":"Android","days":{"20180411 02":[1,1797]},"url":"https://b-stg.pingan.com.cn/aum/m/fund_more.html"},{"os":"Android","days":{"20180408 05":[1,440]},"url":"https://b-stg.pingan.com.cn/aum/m/pay_xiaoan.html"},{"os":"Android","days":{"20180408 05":[1,5409]},"url":"https://b-stg.pingan.com.cn/loan/mobile/index.html"},{"os":"iOS","days":{"20180404 06":[1,3119]},"url":"https://b-stg.pingan.com.cn/loan/mobile/index.html"},{"os":"iOS","days":{"20180410 10":[1,678]},"url":"https://b.pingan.com.cn/m/lum/cfss/amsp/jhy/apply/v3/index.html"},{"os":"Android","days":{"20180408 05":[1,3063]},"url":"https://bank-static-stg.pingan.com.cn/aum/m/amount_deposit.html"},{"os":"Android","days":{"20180408 05":[1,1654]},"url":"https://bank-static-stg.pingan.com.cn/aum/m/amount_deposit_livedead.html"},{"os":"iOS","days":{"20180404 06":[1,1663]},"url":"https://bank-static-stg.pingan.com.cn/aum/mobile/index.html"},{"os":"Android","days":{"20180404 09":[1,280]},"url":"https://bank-static-stg.pingan.com.cn/bank/koudai/faq/FAQDetail.html"},{"os":"Android","days":{"20180404 06":[2,1323]},"url":"https://bank-static-stg.pingan.com.cn/ca/ccBooking/videoActiveHtml/creditcard/activeCard/activeCard.html#/"},{"os":"iOS","days":{"20180411 02":[1,406],"20180410 11":[1,1086],"20180404 06":[1,5628]},"url":"https://bank-static-stg.pingan.com.cn/creditcard/mobile/home1"},{"os":"Android","days":{"20180411 02":[1,1421],"20180408 05":[1,1766],"20180404 06":[1,2251]},"url":"https://bank-static-stg.pingan.com.cn/platform/mobile/index.html"},{"os":"iOS","days":{"20180404 09":[1,575],"20180411 02":[1,854],"20180410 11":[2,1033],"20180404 06":[1,3558],"20180410 10":[1,3193]},"url":"https://bank-static-stg.pingan.com.cn/platform/mobile/index.html"},*/
+{"os":"Android","days":{"20180404 06":[1,749]},"url":"https://bank-static-stg.pingan.com.cn/platform/mobile/mine.html"},
+{"os":"iOS","days":{"20180404 09":[1,2671]},"url":"https://bank-static-stg.pingan.com.cn/platform/mobile/mine.html"},
+{"os":"Android","days":{"20180404 06":[1,591]},"url":"https://bank-static.pingan.com.cn/paces-ccms-core/creditcard/tab/tab.html#/home1"},{"os":"Android","days":{"20180411 02":[150,1421],"20180408 05":[70,1766],"20180404 06":[50,2251]},"url":"https://demoUrl.html"},
+{"os":"iOS","days":{"20180404 09":[216,1351],"20180411 02":[28,1921],"20180410 11":[612,2166],"20180408 05":[32,3766],"20180404 06":[16,2351],"20180410 10":[312,2766]},"url":"https://demoUrl.html"}],"dates":["20180404 06","20180404 09","20180408 05","20180410 10","20180410 11","20180411 02"]}}
 vContext["selectedDimensions"] = payload.selectedDimensions;
 vContext["payload"] = payload;
 vContext.processSuccess(data);
