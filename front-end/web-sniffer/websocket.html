@@ -1,0 +1,21 @@
+<html>
+
+<script type="text/javascript">
+	var ws = new WebSocket("ws://localhost:18081/web-sniffer/wsserver");
+	ws.onopen = function() {
+		console.log("opend")
+	}
+	ws.onmessage= function(msg) {
+		console.log(msg)
+	}
+	function pushTOServer() {
+		ws.send("holla")
+	}
+</script>
+
+<body>
+	<textarea></textarea>
+	<input type="text" name="msg"></input>
+	<input type="button" name="submit" onclick="pushTOServer()"> send</input>
+</body>
+</html>
