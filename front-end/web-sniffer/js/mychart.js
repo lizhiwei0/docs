@@ -95,5 +95,5 @@ var mychart = function(viewx, rowIndex, flag) {
 
    var  vData = vContext["_lastQueryParam"];
    var intersect = 7 * 24 * 60 * 60 * 1000;
-   vData.startDate = Date.parse(vData.startDate) - 7 * 24 
+   vData.startDate = moment(vData.startDate,"yyyy-MM-dd HH:mm").subtract(7,"days)
  }
