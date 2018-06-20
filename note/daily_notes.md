@@ -9,3 +9,8 @@
 
 *   development env*   plugin echart
 *   day-on-day week-on-week
+
+## blueprint
+* pages to be update
+* issues in iris
+* new monthly report
